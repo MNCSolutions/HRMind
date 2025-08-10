@@ -40,9 +40,16 @@ export function staffingForecast() {
   const months = ['+1', '+2', '+3'];
   return departments.map(dep => ({
     department: dep,
-    values: months.map((m, i) => ({ month: m, required: Math.max(0, Math.round((Math.random()*2-1) + (dep==='Produzione'? 10: dep==='Logistica'? 5: 3) + i)))}))
+    values: months.map((m, i) => ({
+      month: m,
+      required: Math.max(
+        0,
+        Math.round((Math.random() * 2 - 1) + (dep === 'Produzione' ? 10 : dep === 'Logistica' ? 5 : 3) + i)
+      )
+    }))
   }));
 }
+
 
 export function prescriptionsForDepartment(dep: string): string[] {
   const agg = departmentAggregates().get(dep)!;
