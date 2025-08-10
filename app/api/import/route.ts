@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabaseAdmin';
 
-// Parser CSV semplice (una riga = un record, separatore virgola)
 function parseCSV(text: string) {
   const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   return lines.map(l => l.split(',').map(v => v.trim()));
@@ -23,7 +22,6 @@ export async function POST(req: Request) {
     let inserted = 0;
 
     if (kind === 'timesheet') {
-      // employee_id,period_month(YYYY-MM-01),hours_month,overtime_hours,night_hours,absences_days
       const payload = rows.map(r => ({
         employee_id: r[0],
         period_month: r[1],
@@ -33,16 +31,11 @@ export async function POST(req: Request) {
         absences_days: Number(r[5] || 0),
         company_id: '11111111-1111-1111-1111-111111111111',
       }));
-
-      const insertRes = await supabase
-        .from('hr.timesheet_monthly')
-        .insert(payload, { returning: 'minimal' });
-
+      const insertRes = await supabase.from('hr.timesheet_monthly').insert(payload);
       if (insertRes.error) throw insertRes.error;
       inserted = payload.length;
 
     } else if (kind === 'evaluations') {
-      // employee_id,period_month(YYYY-MM-01),performance_score,okr_score
       const payload = rows.map(r => ({
         employee_id: r[0],
         period_month: r[1],
@@ -50,27 +43,18 @@ export async function POST(req: Request) {
         okr_score: r[3] !== undefined && r[3] !== '' ? Number(r[3]) : null,
         company_id: '11111111-1111-1111-1111-111111111111',
       }));
-
-      const insertRes = await supabase
-        .from('hr.evaluations')
-        .insert(payload, { returning: 'minimal' });
-
+      const insertRes = await supabase.from('hr.evaluations').insert(payload);
       if (insertRes.error) throw insertRes.error;
       inserted = payload.length;
 
     } else if (kind === 'surveys') {
-      // employee_id,period_month(YYYY-MM-01),wellbeing_score
       const payload = rows.map(r => ({
         employee_id: r[0],
         period_month: r[1],
         wellbeing_score: Number(r[2]),
         company_id: '11111111-1111-1111-1111-111111111111',
       }));
-
-      const insertRes = await supabase
-        .from('hr.survey_responses')
-        .insert(payload, { returning: 'minimal' });
-
+      const insertRes = await supabase.from('hr.survey_responses').insert(payload);
       if (insertRes.error) throw insertRes.error;
       inserted = payload.length;
 
@@ -78,7 +62,6 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Tipo non valido' }, { status: 400 });
     }
 
-    // Aggiorna la materialized view
     const refreshRes = await supabase.rpc('refresh_mv_employee_latest');
     if (refreshRes.error) throw refreshRes.error;
 
