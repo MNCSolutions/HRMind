@@ -37,6 +37,7 @@ export default function Shell({ children }: { children: React.ReactNode }) {
             <Link href="/dashboard" className="text-xl font-bold text-brand dark:text-brand-accent">HRMind</Link>
             <nav className="hidden md:flex items-center gap-4 text-sm">
               <Link href="/dashboard" className="hover:underline">Dashboard</Link>
+              <Link href="/companies" className="hover:underline">Aziende</Link>
               <Link href="/employees/E001" className="hover:underline">Scheda dipendente</Link>
               <Link href="/admin/import" className="hover:underline">Import CSV</Link>
             </nav>
