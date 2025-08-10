@@ -1,20 +1,23 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+'use client';
+
 import Shell from '@/components/Shell';
 import { useEffect, useState } from 'react';
 import { getDepartmentAggregates } from '@/lib/repo';
 import { staffingForecast, prescriptionsForDepartment } from '@/lib/mockData';
+import {
+  ResponsiveContainer,
+  ComposedChart,
+  Area,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  Line,
+} from 'recharts';
 
-const ResponsiveContainer = dynamic(() => import('recharts').then(m => m.ResponsiveContainer), { ssr: false });
-const ComposedChart = dynamic(() => import('recharts').then(m => m.ComposedChart), { ssr: false });
-const Area = dynamic(() => import('recharts').then(m => m.Area), { ssr: false });
-const Bar = dynamic(() => import('recharts').then(m => m.Bar), { ssr: false });
-const XAxis = dynamic(() => import('recharts').then(m => m.XAxis), { ssr: false });
-const YAxis = dynamic(() => import('recharts').then(m => m.YAxis), { ssr: false });
-const Tooltip = dynamic(() => import('recharts').then(m => m.Tooltip), { ssr: false });
-const Legend = dynamic(() => import('recharts').then(m => m.Legend), { ssr: false });
-const Line = dynamic(() => import('recharts').then(m => m.Line), { ssr: false });
 
 export default function DashboardPage() {
   const [agg, setAgg] = useState<{department:string, count:number, avgRisk:number, avgWellbeing:number, overtime:number, absences:number}[]>([]);

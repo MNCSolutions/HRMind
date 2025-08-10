@@ -1,18 +1,18 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import Shell from '@/components/Shell';
 import { useEffect, useState } from 'react';
 import { getEmployeeById } from '@/lib/repo';
 import { Employee, stressIndex } from '@/lib/mockData';
-
-const ResponsiveContainer = dynamic(() => import('recharts').then(m => m.ResponsiveContainer), { ssr: false });
-const LineChart = dynamic(() => import('recharts').then(m => m.LineChart), { ssr: false });
-const Line = dynamic(() => import('recharts').then(m => m.Line), { ssr: false });
-const XAxis = dynamic(() => import('recharts').then(m => m.XAxis), { ssr: false });
-const YAxis = dynamic(() => import('recharts').then(m => m.YAxis), { ssr: false });
-const Tooltip = dynamic(() => import('recharts').then(m => m.Tooltip), { ssr: false });
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from 'recharts';
 
 export default function EmployeePage() {
   const params = useParams<{ id: string }>();
