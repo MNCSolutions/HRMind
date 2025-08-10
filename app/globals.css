@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { @apply bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100; }
+.container { @apply mx-auto max-w-7xl px-4; }
+.card { @apply rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm; }
+.card-title { @apply text-sm font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400; }
+.kpi { @apply text-3xl font-bold; }
