@@ -19,11 +19,17 @@ export async function getEmployeeById(id: string) {
     return mockEmployees.find(e => e.id === id) ?? mockEmployees[0];
   }
   const supabase = createClientBrowser();
-  const { data, error } = await supabase.from('mv_employee_latest').select('*').eq('id', id).maybeSingle();
+  const { data, error } = await supabase
+    .from('hr.mv_employee_latest')
+    .select('*')
+    .eq('id', id)
+    .maybeSingle();
+
   if (error || !data) {
     console.warn('[Supabase] fallback to mock:', error?.message);
     return mockEmployees.find(e => e.id === id) ?? mockEmployees[0];
   }
+
   return {
     id: data.id,
     name: data.first_name,
@@ -41,3 +47,4 @@ export async function getEmployeeById(id: string) {
     managerId: data.manager_id
   };
 }
+
